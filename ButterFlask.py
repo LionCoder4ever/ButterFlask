@@ -3,9 +3,11 @@ from flask import current_app
 from flask import make_response
 from flask import redirect
 from flask import abort
+from flask import render_template
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
-
+bootstrap = Bootstrap(app)
 
 @app.route('/')
 def hello_world():
@@ -30,6 +32,11 @@ def hello_responce():
 @app.route('/redirect')
 def hello_redirect(username):
     return redirect('google.com',404)
+
+
+@app.route('/jinjaname/<name>')
+def hello_jinja(name):
+    return render_template('jinjaname.html',name=name)
 
 
 #@app.before_first_request
