@@ -4,15 +4,16 @@ from flask import make_response
 from flask import redirect
 from flask import abort
 from flask import render_template
+from flask import url_for
 from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
-@app.route('/')
+@app.route('/url')
 def hello_world():
     print(app.url_map)
-    return '<h1>Hello World!<h1>'
+    return '<h1>Hello tet!<h1>'
 
 
 @app.route('/user/<username>')
@@ -30,13 +31,14 @@ def hello_responce():
 
 
 @app.route('/redirect')
-def hello_redirect(username):
-    return redirect('google.com',404)
+def hello_redirect():
+    return redirect('www.baidu.com')
 
 
 @app.route('/jinjaname/<name>')
 def hello_jinja(name):
-    return render_template('jinjaname.html',name=name)
+    realurl = url_for('hello_world',_external=True)
+    return render_template('jinjaname.html',name=name,realurl=realurl)
 
 
 @app.errorhandler(404)
@@ -64,5 +66,8 @@ if __name__ == '__main__':
 #you can also return the response
 
 #abort(404) change the  control to server
+
+
+#url_for() ,a nice way to decouple
 
 
