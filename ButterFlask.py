@@ -39,6 +39,10 @@ def hello_jinja(name):
     return render_template('jinjaname.html',name=name)
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html')
+
 #@app.before_first_request
 
 if __name__ == '__main__':
