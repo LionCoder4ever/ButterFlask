@@ -6,9 +6,19 @@ from flask import abort
 from flask import render_template
 from flask import url_for
 from flask_bootstrap import Bootstrap
+from flask_moment import Moment
+from datetime import datetime
+
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
+moment = Moment(app)
+
+@app.route('/')
+def hello_index():
+
+    return render_template('base.html',current_time=datetime.utcnow())
+
 
 @app.route('/url')
 def hello_world():
@@ -38,7 +48,7 @@ def hello_redirect():
 @app.route('/jinjaname/<name>')
 def hello_jinja(name):
     realurl = url_for('hello_world',_external=True)
-    return render_template('jinjaname.html',name=name,realurl=realurl)
+    return render_template('jinjaname.html',name=name,realurl=realurl,current_time=datetime.utcnow())
 
 
 @app.errorhandler(404)
