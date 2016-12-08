@@ -8,10 +8,13 @@ from flask import url_for
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from datetime import datetime
+from flask import session
 
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import StringField,SubmitField
 from wtforms.validators import DataRequired
+
+from flask import flash
 
 
 
@@ -24,12 +27,12 @@ moment = Moment(app)
 app.config['SECRET_KEY'] = 'secret salt'
 
 
-class NameForm(Form):
-    name = StringField("what's your name",validators=[DataRequired])
+class NameForm(FlaskForm):
+    name = StringField("what's your name",validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 
-@app.route('/')
+@app.route('/index')
 def hello_index():
 
     return render_template('base.html',current_time=datetime.utcnow())
@@ -60,10 +63,24 @@ def hello_redirect():
     return redirect('www.baidu.com')
 
 
-@app.route('/jinjaname/<name>')
-def hello_jinja(name):
+@app.route('/',methods=['GET','POST'])
+def hello_jinja():
     realurl = url_for('hello_world',_external=True)
-    return render_template('jinjaname.html',name=name,realurl=realurl,current_time=datetime.utcnow())
+    name = None
+    form = NameForm()
+    # if form.validate_on_submit():
+    #     name = form.name.data
+    #     form.name.data = ''
+    # if form.validate_on_submit():
+    #     session['name'] = form.name.data
+    #     redirect(url_for('hello_jinja'))
+    if form.validate_on_submit():
+        old_name = session.get('name1')
+        if old_name is not None and old_name !=form.name.data:
+            flash('you have changed your name!')
+        session['name1']=form.name.data
+        redirect(url_for('hello_jinja'))
+    return render_template('jinjaname.html',form=form,name=session.get('name1'),realurl=realurl,current_time=datetime.utcnow())
 
 
 @app.errorhandler(404)
