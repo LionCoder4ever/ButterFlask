@@ -9,10 +9,25 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from datetime import datetime
 
+from flask_wtf import Form
+from wtforms import StringField,SubmitField
+from wtforms.validators import DataRequired
+
+
+
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
+
+#form protect
+app.config['SECRET_KEY'] = 'secret salt'
+
+
+class NameForm(Form):
+    name = StringField("what's your name",validators=[DataRequired])
+    submit = SubmitField('Submit')
+
 
 @app.route('/')
 def hello_index():
@@ -53,7 +68,7 @@ def hello_jinja(name):
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html')
+    return render_template('404.html',current_time=datetime.utcnow())
 
 #@app.before_first_request
 
