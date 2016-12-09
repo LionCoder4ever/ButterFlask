@@ -16,12 +16,25 @@ from wtforms.validators import DataRequired
 
 from flask import flash
 
+from flask_sqlalchemy import SQLAlchemy
+import os
+
+
+
+baseDir = os.path.abspath(os.path.dirname(__file__))
 
 
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+'sqlite:///' + os.path.join(baseDir, 'data.sqlite')
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+
+db = SQLAlchemy(app)
 
 #form protect
 app.config['SECRET_KEY'] = 'secret salt'
