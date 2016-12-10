@@ -40,6 +40,14 @@ db = SQLAlchemy(app)
 app.config['SECRET_KEY'] = 'secret salt'
 
 
+#define sql 
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.INTEGER,primary_key=True)
+    name = db.Column(db.String(64),unique=True)
+
+
+
 class NameForm(FlaskForm):
     name = StringField("what's your name",validators=[DataRequired()])
     submit = SubmitField('Submit')
