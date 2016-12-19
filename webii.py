@@ -1,28 +1,27 @@
-import os
-import socket
 
-class Domain:
-    def __init__(self,domain,port,start,end):
-        self.domain = domain
-        self.port = port
-        self.start = start
-        self.end = end
+#*args
 
-    def foreach(self):
-        for i in range(self.start,self.end):
-            try:
-                s = socket.socket
+def test(f_arg, *args):
+    print("first normal arg:",f_arg)
+    for arg in args:
+        print("another arg through *args :",arg)
 
-                s.connect(('192.168.1.38',i))
-                s.send('Primal Security \n')
-                banner = s.recv(1024)
-                if banner:
-                    print("the port %d"%i)
-                s.close()
-            except:pass
+test('first param','python','java','ruby')
+
+#**kwargs
+#pass k-v into params
+
+def test_kwargs(**kwargs):
+    for k,v in kwargs.items():
+        print("{0} <==> {1}".format(k,v))
+
+test_kwargs(name='python',another_name='ruby',first_name='java')
+
+#*args and **kwargs
+def test_args_and_kwargs(f_arg,*args,**kwargs):
+    pass
 
 
 
-if __name__ == '__main__':
-    domain = Domain("192.168.1.121", 200, 1, 3000)
-    domain.foreach();
+
+
