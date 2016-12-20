@@ -54,4 +54,7 @@ for i in range(5):
     newsquared = list(map(lambda x: x(i), funccollection))
     print(newsquared)
 
+num_list = range(-5,5)
+num_less_zero = list(filter(lambda x:x<0,num_list))
+print(num_less_zero)
 
