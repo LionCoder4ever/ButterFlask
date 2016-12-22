@@ -42,3 +42,21 @@ def a_function_require_decorator():
 
 
 print(a_function_require_decorator.__name__)
+a_function_require_decorator()
+
+#a usual example
+
+def decorator_name(f):
+    @wraps(f)
+    def decorated(*args,**kwargs):
+        if not can_run:
+            return "function will not run"
+        return f(*args,**kwargs)
+    return decorated
+
+@decorator_name
+def func():
+    return "function is running"
+
+can_run = False
+print(func())
