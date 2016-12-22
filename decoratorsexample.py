@@ -84,3 +84,25 @@ def my_func():
     print("my_func running")
 
 my_func()
+
+#log with the param
+def log_it(logfile='out.log'):
+    def logging_decorator(func):
+        @wraps(func)
+        def wrapped_function(*args,**kwargs):
+            log_string = func.__name__+" was called"
+            with open(logfile,'a') as openfile:
+                openfile.write(log_string+'\n')
+        return wrapped_function
+    return logging_decorator
+@log_it()
+def my_func1():
+    print("my_func1 running")
+
+my_func1()
+
+@log_it(logfile='newout.log')
+def my_func2():
+    print("my_func2 running")
+
+my_func2()
