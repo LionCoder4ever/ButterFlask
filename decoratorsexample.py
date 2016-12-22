@@ -60,3 +60,27 @@ def func():
 
 can_run = False
 print(func())
+
+
+#authorization
+def check_auth(f):
+    @wraps(f)
+    def function_need_auth(*args,**kwargs):
+        if not 'auth' :
+            pass
+        return f(*args,**kwargs)
+    return function_need_auth
+
+#log
+def log_i(f):
+    @wraps(f)
+    def function_called(*args,**kwargs):
+        print(f.__name__+"was called")
+        return f(*args,*kwargs)
+    return function_called
+
+@log_i
+def my_func():
+    print("my_func running")
+
+my_func()
