@@ -1,4 +1,5 @@
 # object mutability
+import sys
 
 foo = ['good']
 
@@ -20,3 +21,4 @@ def add_to(num,target=[]):
 print(add_to(1))
 print(add_to(2))
 print(add_to(3))
+print(sys.getdefaultencoding())

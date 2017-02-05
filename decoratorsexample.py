@@ -1,9 +1,12 @@
 from functools import wraps
 #function is also object
 
+
 def f(name='coder'):
+
     def great():
         return 'now you in the great function'
+
     def welcome():
         return 'now you in the welcome function'
     if name == 'coder':
