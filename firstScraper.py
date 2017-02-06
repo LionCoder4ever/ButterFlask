@@ -2,22 +2,25 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from urllib.request import HTTPError
 
-try:
-    html = urlopen("http://pythonscraping.com/pages/page1.html")
-except HTTPError as e:
-    print(e)
-else:
-    if html is None:
-        print("URL is not found")
-    else:
+
+def getTitle(url):
+    try:
+        html = urlopen(url)
+    except HTTPError as e:
+        return None
+    try:
         bsObj = BeautifulSoup(html.read(), "html.parser")
-        try:
-            someTag = bsObj.h1
-        except AttributeError as e:
-            print("tag was not found")
-        else:
-            if someTag is None:
-                print("tag was not found")
-            else:
-                print(someTag)
+        title = bsObj.body.h1
+    except AttributeError as e:
+        return None
+    return title
+
+
+title = getTitle("http://pythonscraping.com/pages/page1.html")
+if title == None:
+    print("title could not found")
+else:
+    print(title)
+
+
 
